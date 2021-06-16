@@ -8,7 +8,7 @@ async function run(){
             redirectUri: 'http://localhost:8080'
         },
     };
-    var client = new Msal.PublicClientApplication(config);
+    var client = new Msal.UserAgentApplication(config);
     var request = {
         scopes: ['user.read']
     };
