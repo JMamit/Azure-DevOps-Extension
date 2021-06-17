@@ -1,11 +1,12 @@
 //ob4ganei7br3knkju3b5udrc2nvg6f25eckb6glhyt57lifrlnwq
+//http://localhost:8080/
 async function run(){
     console.log("running...");
     const config = {
         auth: {
             clientId: 'cd893e7a-6b16-4ea8-be19-2915831372bc',
             authority: 'https://login.microsoftonline.com/common/',
-            redirectUri: 'http://localhost:8080'
+            redirectUri: 'https://www.google.co.in/'
         },
     };
     var client = new Msal.UserAgentApplication(config);
@@ -15,7 +16,8 @@ async function run(){
     let loginResponse = await client.loginPopup(request);
     console.log(loginResponse);
 }
-document.getElementById('signIn').addEventListener("click",run);
+
+document.getElementById('signIn').addEventListener('click',run);
 
 
 
