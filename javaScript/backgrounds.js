@@ -16,6 +16,8 @@ async function run(){
     console.log(loginResponse);
 }
 document.getElementById('signIn').addEventListener("click",run);
+let tokenResponse = await client.acquireTokenSilent(request);
+console.dir(tokenResponse);
 
 
 
