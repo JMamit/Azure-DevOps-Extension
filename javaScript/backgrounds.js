@@ -6,18 +6,19 @@ async function run(){
         auth: {
             clientId: 'cd893e7a-6b16-4ea8-be19-2915831372bc',
             authority: 'https://login.microsoftonline.com/common/',
-            redirectUri: 'https://www.google.co.in/'
+            redirectUri: 'http://localhost:8080/'
         },
     };
-    var client = new Msal.UserAgentApplication(config);
+    var client = new Msal.PublicClientApplication(config);
     var request = {
         scopes: ['user.read']
     };
     let loginResponse = await client.loginPopup(request);
     console.log(loginResponse);
 }
+var code = "console.log('This code will execute as a content script');";
+//chrome.tabs.executeScript({code: document.getElementById('signIn').addEventListener('click',run)});
 
 document.getElementById('signIn').addEventListener('click',run);
-
 
 
