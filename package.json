@@ -1,17 +1,20 @@
 {
-  "name": "msal-node-auth-code",
+  "name": "msal-javascript-spa",
   "version": "1.0.0",
-  "description": "sample app for msal-node",
-  "main": "index.js",
+  "description": "JavaScript single-page application using MSAL.js to authenticate users against Azure Active Directory",
+  "main": "server.js",
   "scripts": {
-    "start": "http-server"
+    "start": "node server.js"
   },
-  "author": "Microsoft",
+  "keywords": [
+    "msal",
+    "authentication",
+    "ms-identity",
+    "azure-ad"
+  ],
+  "author": "derisen",
   "license": "MIT",
   "dependencies": {
-    "@azure/msal-node": "^1.0.0",
-    "express": "^4.17.1",
-    "http-server": "0.12.3",
-    "uuid": "^8.3.1"
+    "express": "^4.17.1"
   }
 }
