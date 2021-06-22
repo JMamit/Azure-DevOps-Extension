@@ -1,10 +1,10 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "My Extension",
   "version": "1.0.0",
-  "content_security_policy": "script-src 'self' https://alcdn.msauth.net/lib/1.4.11/js/msal.min.js; object-src 'self'",
 
-  "browser_action": {
+
+  "action": {
     "default_icon": {              
       "16": "images/icon16.png",   
       "32": "images/icon32.png",   
@@ -17,7 +17,6 @@
   "icons": {"128": "images/icon128.png"},
   "permissions": ["activeTab","contextMenus","storage"],
   "background": {
-      "persistant": false,
-      "scripts": ["javaScript/backgrounds.js"]
+      "service_worker": "javaScript/app.js"
   }
 }
