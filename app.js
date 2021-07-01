@@ -1,127 +1,17 @@
-// Create the main myMSALObj instance
-// configuration parameters are located at config.js
-const myMSALObj = new msal.PublicClientApplication(msalConfig);
-
-let username = "";
-
-/**
- * A promise handler needs to be registered for handling the
- * response returned from redirect flow. For more information, visit:
- * 
- */
-myMSALObj.handleRedirectPromise()
-    .then(handleResponse)
-    .catch((error) => {
-        console.error(error);
-    });
-
-function selectAccount() {
-
-    /**
-     * See here for more info on account retrieval: 
-     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-common/docs/Accounts.md
-     */
-
-    const currentAccounts = myMSALObj.getAllAccounts();
-
-    if (!currentAccounts || currentAccounts.length < 1) {
-        return;
-    } else if (currentAccounts.length > 1) {
-        // Add your account choosing logic here
-        console.warn("Multiple accounts detected.");
-    } else if (currentAccounts.length === 1) {
-        username = currentAccounts[0].username;
-        welcomeUser(username);
+var AUTH_URL = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=6731de76-14a6-49ae-97bc-6eba6914391e&response_type=code&redirect_uri='+chrome.identity.getRedirectURL+'&response_mode=query&scope=openid%20offline_access%20https%3A%2F%2Fgraph.microsoft.com%2Fmail.read&state=12345';
+var CALLBACK_URL =  'https://' + chrome.runtime.id +
+'.chromiumapp.org/provider_cb';
+chrome.identity.launchWebAuthFlow({
+    url: AUTH_URL,
+    interactive: true,
+  }, function(redirectURL) {
+    var q = redirectURL.substr(redirectURL.indexOf('#')+1);
+    var parts = q.split('&');
+    for (var i = 0; i < parts.length; i++) {
+      var kv = parts[i].split('=');
+      if (kv[0] == 'access_token') {
+        token = kv[1];
+        console.log('token is', token);
+      }
     }
-}
-
-function handleResponse(response) {
-
-    /**
-     * To see the full list of response object properties, visit:
-     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/request-response-object.md#response
-     */
-
-    if (response !== null) {
-        username = response.account.username;
-        welcomeUser(username);
-    } else {
-
-        selectAccount();
-
-        /**
-         * If you already have a session that exists with the authentication server, you can use the ssoSilent() API
-         * to make request for tokens without interaction, by providing a "login_hint" property. To try this, comment the 
-         * line above and uncomment the section below.
-         */
-
-        // myMSALObj.ssoSilent(silentRequest).
-        //     then(() => {
-        //         const currentAccounts = myMSALObj.getAllAccounts();
-        //         username = currentAccounts[0].username;
-        //         welcomeUser(username);
-        //         updateTable();
-        //     }).catch(error => {
-        //         console.error("Silent Error: " + error);
-        //         if (error instanceof msal.InteractionRequiredAuthError) {
-        //             signIn();
-        //         }
-        //     });
-    }
-}
-
-function signIn() {
-
-    /**
-     * You can pass a custom request object below. This will override the initial configuration. For more information, visit:
-     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/request-response-object.md#request
-     */
-
-    myMSALObj.loginRedirect(loginRequest);
-}
-
-function signOut() {
-
-    /**
-     * You can pass a custom request object below. This will override the initial configuration. For more information, visit:
-     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/request-response-object.md#request
-     */
-
-    // Choose which account to logout from by passing a username.
-    const logoutRequest = {
-        account: myMSALObj.getAccountByUsername(username)
-    };
-
-    myMSALObj.logout(logoutRequest);
-}
-
-function getTokenRedirect(request) {
-    /**
-     * See here for more info on account retrieval: 
-     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-common/docs/Accounts.md
-     */
-    request.account = myMSALObj.getAccountByUsername(username);
-
-    return myMSALObj.acquireTokenSilent(request)
-        .catch(error => {
-            console.warn("silent token acquisition fails. acquiring token using redirect");
-            if (error instanceof msal.InteractionRequiredAuthError) {
-                // fallback to interaction when silent call fails
-                return myMSALObj.acquireTokenRedirect(request);
-            } else {
-                console.warn(error);   
-            }
-        });
-}
-
-// Acquires and access token and then passes it to the API call
-function passTokenToApi() {
-    getTokenRedirect(tokenRequest)
-        .then(response => {
-            callApiWithToken(apiConfig.endpoint, response.accessToken);
-        }).catch(error => {
-            console.error(error);
-        });
-}
-
-selectAccount();
+  });
