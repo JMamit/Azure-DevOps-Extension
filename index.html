@@ -6,19 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADO Extension</title>
     <link rel="SHORTCUT ICON" href="./favicon.svg" type="image/x-icon">
-    <script type="text/javascript" src="javaScript/msal.min.js"></script>
-    <!-- msal.min.js can be used in the place of msal.js; included msal.js to make debug easy -->
-    <script src="javaScript/msal-broswer.js"  crossorigin="anonymous"></script>
-
-    <!-- To help ensure reliability, Microsoft provides a second CDN -->
-    <script type="text/javascript" src="javaScript/CDN2.js"></script>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" type="text/css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="content unauthorized">
-        <div class="top">
+    <div class="initial">
+        <div class="content-top">
           <img class="img-logo" src="https://user-images.githubusercontent.com/1874103/46415699-cfc5cf00-c6f3-11e8-9bcc-2fc2bf1759ec.png" />
           <h1>Azure DevOps Extension</h1>
         </div>
@@ -26,21 +19,34 @@
           <a class="btn" id="signIn" >SIGN IN WITH MICROSOFT ACCOUNT</a>
         </div>
     </div>
-    <div class="content authorized" style="display: none;">
+    <div class="selectProject" style="display: none;">
+      <div class="createdProjects">
+        <table class="tableProj">
+          <thead>
+            <th>Organization</th>
+            <th>Project</th>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="addProject">
+        <div class="projectDetails">
+          <div class="orgName">
+            <input type="text" class="textField" placeholder="Organization Name" id="org">
+          </div>
+          <div class="projName">
+            <input type="text" class="textField" placeholder="Project Name" id="proj">
+          </div>
+        </div>
+        <div class="addButton">
+          <a class="btn2" id="addProj">ADD PROJECT</a>
+        </div>
+      </div>
+    </div>
+    <div class="displayTasks" style="display: none;">
         <a class="btn" id="signOut" >SIGN OUT</a>
     </div>
-    <script src="javaScript/backgrounds.js"></script>
-
-     <!-- importing bootstrap.js and supporting js libraries -->
-     <script src="javaScript/jquery-3.4.1.slim.min.js"  crossorigin="anonymous"></script>
-     <script src="javaScript/popper.min.js"  crossorigin="anonymous"></script>  
-     <script src="javaScript/bootstrap.min.js"  crossorigin="anonymous"></script>
-     
-     <!-- importing app scripts (load order is important) -->
-     <script type="text/javascript" src="javaScript/config.js"></script>
-     <script type="text/javascript" src="javaScript/ui.js"></script>
-     <script type="text/javascript" src="javaScript/fetch.js"></script>
-     <script type="text/javascript" src="javaScript/app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
-
