@@ -17,6 +17,6 @@
     "icons": {"128": "images/icon128.png"},
     "permissions": ["activeTab","contextMenus","storage","identity"],
     "background": {
-        "service_worker": "app.js","type": "module"
+        "service_worker": "app.js"
     }
   }
